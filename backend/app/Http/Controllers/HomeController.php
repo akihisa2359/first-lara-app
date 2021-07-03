@@ -26,8 +26,11 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        echo json_encode($request->cookie());
+        echo "<br>";
+        echo json_encode(session()->all());
         return view('form');
     }
 }
