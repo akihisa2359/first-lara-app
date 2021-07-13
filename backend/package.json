@@ -26,6 +26,8 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@tinymce/tinymce-vue": "^3.2.8",
+        "vue-router": "^3.5.2",
         "vuetify": "^2.5.6"
     }
 }
