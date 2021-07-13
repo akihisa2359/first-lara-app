@@ -3,10 +3,34 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import VueRouter from 'vue-router';
+import Vuetify from 'vuetify';
+import HeaderComponent from "./components/HeaderComponent";
+import PostListComponent from "./components/PostListComponent";
+import PostCreateComponent from "./components/PostCreateComponent";
 
-require('./bootstrap');
+// require('./bootstrap');
 
 window.Vue = require('vue').default;
+
+Vue.use(Vuetify);
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path: '/posts',
+            name: 'post.list',
+            component: PostListComponent
+        },
+        {
+            path: '/post/create',
+            name: 'post.create',
+            component: PostCreateComponent
+        }
+    ]
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,6 +44,8 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('header-component', HeaderComponent);
+Vue.component('post-list-component', PostListComponent);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,4 +55,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    router,
+    vuetify: new Vuetify({
+        iconfont: 'mdi',
+    }),
 });

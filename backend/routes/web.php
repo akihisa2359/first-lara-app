@@ -23,6 +23,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // Route::get('/create', [App\Http\Controllers\HomeController::class, 'create']);
 
-Route::get('/post', [App\Http\Controllers\PostController::class, 'index']);
-Route::post('/post', [App\Http\Controllers\PostController::class, 'store']);
-Route::get('/post/create', [App\Http\Controllers\PostController::class, 'create']);
+// Route::get('/post', [App\Http\Controllers\PostController::class, 'index']);
+// Route::post('/post', [App\Http\Controllers\PostController::class, 'store']);
+// Route::get('/post/create', [App\Http\Controllers\PostController::class, 'create']);
+
+Route::get('/{any}', function() {
+    return view('app');
+})->where('any', '.*');
