@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    echo 'welcome';
+    echo auth()->user();
     return view('welcome');
 });
 
@@ -21,12 +23,15 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::post('/post', [App\Http\Controllers\PostController::class, 'store']);
+
 // Route::get('/create', [App\Http\Controllers\HomeController::class, 'create']);
 
 // Route::get('/post', [App\Http\Controllers\PostController::class, 'index']);
 // Route::post('/post', [App\Http\Controllers\PostController::class, 'store']);
 // Route::get('/post/create', [App\Http\Controllers\PostController::class, 'create']);
+// Route::post('/post', 'App\Http\Controllers\PostController@store');
 
-Route::get('/{any}', function() {
-    return view('app');
-})->where('any', '.*');
+Route::get('/{catch?}', function () { 
+    return view('app'); 
+})->where('catch', '^(?!api).*$');

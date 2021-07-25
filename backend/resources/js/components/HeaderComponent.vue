@@ -26,7 +26,7 @@
 			src="https://picsum.photos/1920/1080?random"
 		>
 			<v-container class="d-flex align-center">		
-				<v-toolbar-title>びゅうてぃふぁいい</v-toolbar-title>
+				<v-toolbar-title>Vuetify</v-toolbar-title>
 				<div class="flex-grow-1"></div>
 			
 				<v-tab>login</v-tab>
