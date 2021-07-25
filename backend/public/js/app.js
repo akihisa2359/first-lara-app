@@ -594,6 +594,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -606,15 +611,44 @@ __webpack_require__.r(__webpack_exports__);
       return console.log(error);
     });
     return {
-      content: "7i07x8u13pdqcup32m1fpcx6ufcif0eeicksrxmmlqarxmrd"
+      file: '',
+      title: '',
+      content: ''
     };
   },
   mounted: function mounted() {
-    axios.get('https://jsonplaceholder.typicode.com/users').then(function (response) {
+    axios.get('/api/test').then(function (response) {
       return console.log(response);
     })["catch"](function (error) {
       return console.log(error);
     });
+  },
+  methods: {
+    fileSelected: function fileSelected(file) {
+      this.file = file;
+      console.log(this.file);
+    },
+    submit: function submit() {
+      // const axiosPost = axios.create({
+      //     xsrfHeaderName: 'X-CSRF-Token',
+      //     withCredentials: true
+      // })
+      // axiosPost.post('/api/post', {
+      //     csrfToken: 'q7oTOxSlZbhOSHMl6PH9YkkrH5iudOJEs515klkh',
+      //     title: 'title',
+      //     content: 'content',
+      // })
+      // .then((res) => {
+      //     console.log(res);
+      // })
+      var formdata = new FormData();
+      formdata.append('file', this.file);
+      formdata.append('title', this.title);
+      formdata.append('content', this.content);
+      axios.post('/post', formdata).then(function (res) {
+        console.log(res);
+      });
+    }
   }
 });
 
@@ -1155,7 +1189,7 @@ var render = function() {
         "v-container",
         { staticClass: "d-flex align-center" },
         [
-          _c("v-toolbar-title", [_vm._v("びゅうてぃふぁいい")]),
+          _c("v-toolbar-title", [_vm._v("Vuetify")]),
           _vm._v(" "),
           _c("div", { staticClass: "flex-grow-1" }),
           _vm._v(" "),
@@ -1198,47 +1232,62 @@ var render = function() {
       _c(
         "v-container",
         [
-          _c("v-textarea", {
-            attrs: {
-              filled: "",
-              "auto-grow": "",
-              label: "content",
-              "row-height": "30",
-              shaped: ""
-            }
-          }),
-          _vm._v(" "),
-          _c("editor", {
-            attrs: {
-              "api-key": "7i07x8u13pdqcup32m1fpcx6ufcif0eeicksrxmmlqarxmrd",
-              "initial-value": "Once upon a time...",
-              init: {
-                height: 500,
-                menubar: false,
-                table_toolbar: [
-                  "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol"
-                ],
-                plugins: [
-                  "print preview fullpage importcss searchreplace autolink \
-                    autosave save directionality visualblocks visualchars fullscreen image link media template codesample \
-                    table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount \
-                    imagetools textpattern noneditable help charmap quickbars  emoticons"
-                ],
-                toolbar: [
-                  "undo redo | formatselect | bold italic backcolor | \
-                    alignleft aligncenter alignright alignjustify | \
-                    bullist numlist outdent indent | removeformat | help table"
-                ]
-              }
-            },
-            model: {
-              value: _vm.content,
-              callback: function($$v) {
-                _vm.content = $$v
-              },
-              expression: "content"
-            }
-          })
+          _c(
+            "v-form",
+            [
+              _c("v-file-input", {
+                attrs: { label: "File Shown In Post List" },
+                on: { change: _vm.fileSelected }
+              }),
+              _vm._v(" "),
+              _c("v-text-field", {
+                attrs: { label: "Title", required: "" },
+                model: {
+                  value: _vm.title,
+                  callback: function($$v) {
+                    _vm.title = $$v
+                  },
+                  expression: "title"
+                }
+              }),
+              _vm._v(" "),
+              _c("editor", {
+                attrs: {
+                  "api-key": "7i07x8u13pdqcup32m1fpcx6ufcif0eeicksrxmmlqarxmrd",
+                  init: {
+                    height: 500,
+                    menubar: false,
+                    table_toolbar: [
+                      "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol"
+                    ],
+                    plugins: [
+                      "print preview fullpage importcss searchreplace autolink \
+                        autosave save directionality visualblocks visualchars fullscreen image link media template codesample \
+                        table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount \
+                        imagetools textpattern noneditable help charmap quickbars  emoticons"
+                    ],
+                    toolbar: [
+                      "undo redo | formatselect | bold italic backcolor | \
+                        alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent | removeformat | help table"
+                    ]
+                  }
+                },
+                model: {
+                  value: _vm.content,
+                  callback: function($$v) {
+                    _vm.content = $$v
+                  },
+                  expression: "content"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-btn", { staticClass: "mt-4", on: { click: _vm.submit } }, [
+                _vm._v("submit")
+              ])
+            ],
+            1
+          )
         ],
         1
       )

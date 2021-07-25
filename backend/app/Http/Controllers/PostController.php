@@ -15,9 +15,9 @@ class PostController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -48,10 +48,17 @@ class PostController extends Controller
     public function store(Request $request)
     {
         // todo: ユーザーID取得
+        echo 'aaa';
+        echo 'id : ' . Auth::id() . "end";
+        // echo json_encode($request->session()->all());
+        // echo json_encode($request->all());
         echo json_encode($request->all());
-        $form = $request->all();
+        $form = $request->except(['file']);
+        $file = $request->file('file');
+        $file->store('public/' . Auth::id() . '/');
+        // echo $form;
         $form['user_id'] = Auth::id();
-        Post::create($form);
+        return Post::create($form);
     }
 
     /**
