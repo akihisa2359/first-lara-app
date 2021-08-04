@@ -25,8 +25,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $items = Post::all();
-        return view('post.index', ['items' => $items]);
+        return Post::all();
     }
 
     /**
@@ -47,18 +46,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // todo: ユーザーID取得
-        echo 'aaa';
-        echo 'id : ' . Auth::id() . "end";
-        // echo json_encode($request->session()->all());
-        // echo json_encode($request->all());
-        echo json_encode($request->all());
         $form = $request->except(['file']);
-        $file = $request->file('file');
-        $file->store('public/' . Auth::id() . '/');
-        // echo $form;
+        $file_name = $request->file->getClientOriginalName();
         $form['user_id'] = Auth::id();
-        return Post::create($form);
+        $form['file_name'] = $file_name;
+        $post_id = Post::create($form)->id;
+
+        $file = $request->file('file');
+        $file->storeAs('public/image/' . $post_id . '/', $file_name);
+
+        return redirect('/post/show');
     }
 
     /**

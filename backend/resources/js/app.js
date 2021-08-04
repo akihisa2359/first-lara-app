@@ -20,7 +20,7 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/posts',
+            path: '/post/show',
             name: 'post.list',
             component: PostListComponent
         },

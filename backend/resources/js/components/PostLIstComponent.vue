@@ -1,7 +1,7 @@
 <template>
     <v-main>
         <v-container>
-            <v-row dense>
+            <!-- <v-row dense>
                 <v-col cols="6">
                     <v-card>
                         <v-img
@@ -30,44 +30,69 @@
                         </v-card-text>
                     </v-card>
                 </v-col>
+            </v-row> -->
+            <v-row class="mt-3" justify="center">
+                <v-col class="mt-8" cols="10" md="4" sm="5" v-for="(post, i) in posts" :key="i">
+                    <v-card
+                        :hover="true">
+                    <v-img
+                            :src='"/storage/image/" + post.id + "/" + post.file_name'
+                            class="white--text align-end"
+                            :aspect-ratio="16/8"
+                            width="100％"
+                            height="auto"
+                        >
+                            <v-card-title>{{post.title}}</v-card-title>
+                        </v-img>
+                        
+                        <v-card-text style="height:80px">
+                            <p class="post-content">{{post.content}}</p>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
             </v-row>
 
         </v-container>
     </v-main>
-    <!-- <div class="container">
-        <table class="table table-hover">
-            <thead class="thead-light">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Title</th>
-                <th scope="col">Content</th>
-                <th scope="col">Person In Charge</th>
-                <th scope="col">Show</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Title1</td>
-                <td>Content1</td>
-                <td>Ichiro</td>
-                <td>
-                    <button class="btn btn-primary">Show</button>
-                </td>
-                <td>
-                    <button class="btn btn-success">Edit</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger">Delete</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div> -->
 </template>
 
 <script>
-    export default {}
+    export default {
+        data() {
+            return {
+                posts: []
+            }
+        },
+        methods: {
+            removeHtmlTag(content) {
+                return content.replace(/(<([^>]+)>)/gi, '');
+            },
+
+            getPosts() {
+                axios.get('/posts')
+                    .then((res) => {
+                        let posts = res.data;
+                        for (let i = 0; i < posts.length; i++) {
+                            posts[i].content = this.removeHtmlTag(posts[i].content);
+                        }
+
+                        console.log(res.data);
+                        this.posts = posts;
+                    });
+            }
+        },
+        mounted() {
+            this.getPosts();
+        }
+        
+    }
 </script>
+
+<style scoped>
+    .post-content {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+</style>
